@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Персональный сайт Александра Бондаренко"
+      content="Бесплатный конструктор простой доверенности"
     />
-    <title>Александр Бондаренко</title>
+    <title>Конструктор доверенности</title>
     <style>
       :root {
-        color-scheme: dark;
+        color: #172033;
         font-family:
           Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
           "Segoe UI", sans-serif;
-        background: #07111f;
-        color: #f8fafc;
+        background: #eef2f7;
+        font-synthesis: none;
       }
 
       * {
@@ -23,96 +23,824 @@
       }
 
       body {
+        min-width: 320px;
         min-height: 100vh;
         margin: 0;
-        display: grid;
-        place-items: center;
-        overflow: hidden;
         background:
-          radial-gradient(circle at 18% 20%, #1d4ed880, transparent 32rem),
-          radial-gradient(circle at 82% 80%, #0f766e70, transparent 28rem),
-          #07111f;
+          radial-gradient(circle at 10% 0%, #dce7ff 0, transparent 28rem),
+          #eef2f7;
       }
 
-      main {
-        width: min(680px, calc(100% - 32px));
-        padding: clamp(36px, 8vw, 72px);
-        border: 1px solid #ffffff24;
-        border-radius: 28px;
-        background: #0f172acc;
-        box-shadow: 0 24px 80px #00000060;
-        backdrop-filter: blur(18px);
+      button,
+      input,
+      select,
+      textarea {
+        font: inherit;
       }
 
-      .status {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        margin: 0 0 28px;
-        color: #99f6e4;
-        font-size: 0.85rem;
-        font-weight: 700;
-        letter-spacing: 0.08em;
+      button {
+        cursor: pointer;
+      }
+
+      .site-header {
+        padding: 56px 24px 28px;
+        text-align: center;
+      }
+
+      .eyebrow {
+        margin: 0 0 12px;
+        color: #3157c8;
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.14em;
         text-transform: uppercase;
-      }
-
-      .status::before {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background: #2dd4bf;
-        box-shadow: 0 0 18px #2dd4bf;
-        content: "";
       }
 
       h1 {
         margin: 0;
-        font-size: clamp(2.6rem, 9vw, 5.4rem);
-        line-height: 0.98;
-        letter-spacing: -0.06em;
+        color: #10182b;
+        font-size: clamp(2rem, 5vw, 3.8rem);
+        letter-spacing: -0.045em;
+        line-height: 1.05;
       }
 
-      p {
-        max-width: 520px;
-        margin: 28px 0 0;
-        color: #cbd5e1;
-        font-size: clamp(1rem, 2.5vw, 1.2rem);
-        line-height: 1.7;
+      .intro {
+        max-width: 650px;
+        margin: 18px auto 0;
+        color: #5c667a;
+        font-size: 1.05rem;
+        line-height: 1.65;
       }
 
-      a {
-        display: inline-block;
-        margin-top: 32px;
-        padding: 13px 20px;
-        border-radius: 12px;
-        background: #f8fafc;
-        color: #0f172a;
-        font-weight: 750;
-        text-decoration: none;
+      .privacy-note {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 20px;
+        padding: 8px 13px;
+        border: 1px solid #c8d8ff;
+        border-radius: 999px;
+        background: #f6f8ff;
+        color: #3157a7;
+        font-size: 0.86rem;
+        font-weight: 650;
+      }
+
+      .privacy-note::before {
+        content: "●";
+        color: #3aaf77;
+      }
+
+      .app {
+        display: grid;
+        grid-template-columns: minmax(320px, 0.9fr) minmax(420px, 1.1fr);
+        gap: 24px;
+        width: min(1440px, calc(100% - 40px));
+        margin: 0 auto 64px;
+        align-items: start;
+      }
+
+      .panel {
+        border: 1px solid #d9e0ec;
+        border-radius: 22px;
+        background: #ffffff;
+        box-shadow: 0 18px 55px #34436514;
+      }
+
+      .form-panel {
+        padding: clamp(22px, 3vw, 34px);
+      }
+
+      .section {
+        margin: 0;
+        padding: 0;
+        border: 0;
+      }
+
+      .section + .section {
+        margin-top: 30px;
+        padding-top: 30px;
+        border-top: 1px solid #e5e9f0;
+      }
+
+      legend {
+        width: 100%;
+        margin-bottom: 18px;
+        color: #172033;
+        font-size: 1.08rem;
+        font-weight: 800;
+      }
+
+      .fields {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .field {
+        display: grid;
+        gap: 7px;
+      }
+
+      .field-wide {
+        grid-column: 1 / -1;
+      }
+
+      label {
+        color: #3b465c;
+        font-size: 0.84rem;
+        font-weight: 700;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        border: 1px solid #cfd7e5;
+        border-radius: 11px;
+        background: #fbfcfe;
+        color: #172033;
+        outline: none;
         transition:
-          transform 160ms ease,
-          box-shadow 160ms ease;
+          border-color 150ms ease,
+          box-shadow 150ms ease,
+          background 150ms ease;
       }
 
-      a:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 12px 32px #00000050;
+      input,
+      select {
+        min-height: 46px;
+        padding: 10px 12px;
       }
 
-      a:focus-visible {
-        outline: 3px solid #5eead4;
-        outline-offset: 4px;
+      textarea {
+        min-height: 135px;
+        padding: 12px;
+        line-height: 1.5;
+        resize: vertical;
+      }
+
+      input:focus,
+      select:focus,
+      textarea:focus {
+        border-color: #5274dc;
+        background: #ffffff;
+        box-shadow: 0 0 0 3px #5274dc22;
+      }
+
+      input::placeholder,
+      textarea::placeholder {
+        color: #97a1b4;
+      }
+
+      .checkbox {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 13px 14px;
+        border-radius: 11px;
+        background: #f4f7fb;
+        color: #3b465c;
+        font-size: 0.9rem;
+        line-height: 1.4;
+      }
+
+      .checkbox input {
+        width: 18px;
+        min-height: auto;
+        height: 18px;
+        margin: 1px 0 0;
+        accent-color: #3157c8;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 30px;
+      }
+
+      .button {
+        min-height: 46px;
+        padding: 11px 18px;
+        border: 0;
+        border-radius: 11px;
+        font-weight: 750;
+        transition:
+          transform 150ms ease,
+          box-shadow 150ms ease,
+          background 150ms ease;
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+      }
+
+      .button-primary {
+        flex: 1 1 190px;
+        background: #3157c8;
+        color: #ffffff;
+        box-shadow: 0 10px 24px #3157c833;
+      }
+
+      .button-primary:hover {
+        background: #284ab0;
+      }
+
+      .button-secondary {
+        border: 1px solid #cfd7e5;
+        background: #ffffff;
+        color: #344057;
+      }
+
+      .button:focus-visible {
+        outline: 3px solid #83a2ff;
+        outline-offset: 3px;
+      }
+
+      .preview-panel {
+        position: sticky;
+        top: 20px;
+        overflow: hidden;
+      }
+
+      .preview-toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        padding: 15px 20px;
+        border-bottom: 1px solid #dfe4ed;
+        background: #f8fafc;
+      }
+
+      .preview-label {
+        color: #58647a;
+        font-size: 0.82rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .print-button {
+        padding: 8px 13px;
+        border: 1px solid #c9d2e1;
+        border-radius: 9px;
+        background: #ffffff;
+        color: #24324a;
+        font-size: 0.86rem;
+        font-weight: 750;
+      }
+
+      .document-wrap {
+        padding: clamp(18px, 3vw, 42px);
+        background: #e9edf3;
+      }
+
+      .document {
+        min-height: 760px;
+        padding: clamp(34px, 5vw, 64px);
+        background: #ffffff;
+        color: #171717;
+        box-shadow: 0 8px 26px #29354a1a;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 1rem;
+        line-height: 1.65;
+      }
+
+      .document h2 {
+        margin: 0 0 28px;
+        font-size: 1.35rem;
+        letter-spacing: 0.08em;
+        text-align: center;
+      }
+
+      .document-meta {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+
+      .document p {
+        margin: 0 0 18px;
+        text-align: justify;
+        text-indent: 2em;
+      }
+
+      .document .signature {
+        margin-top: 58px;
+        text-indent: 0;
+        text-align: left;
+      }
+
+      .placeholder {
+        color: #8b8b8b;
+      }
+
+      .disclaimer {
+        margin: 22px 0 0;
+        padding: 14px 16px;
+        border-left: 3px solid #e5a42c;
+        background: #fff8e8;
+        color: #765817;
+        font-size: 0.84rem;
+        line-height: 1.5;
+      }
+
+      @media (max-width: 960px) {
+        .app {
+          grid-template-columns: 1fr;
+          width: min(760px, calc(100% - 28px));
+        }
+
+        .preview-panel {
+          position: static;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .site-header {
+          padding: 38px 18px 24px;
+        }
+
+        .fields {
+          grid-template-columns: 1fr;
+        }
+
+        .field-wide {
+          grid-column: auto;
+        }
+
+        .form-panel {
+          padding: 20px;
+        }
+
+        .document-wrap {
+          padding: 10px;
+        }
+
+        .document {
+          min-height: 620px;
+          padding: 28px 22px;
+          font-size: 0.9rem;
+        }
+
+        .document-meta {
+          display: grid;
+          gap: 4px;
+        }
+      }
+
+      @media print {
+        @page {
+          size: A4;
+          margin: 18mm;
+        }
+
+        body {
+          background: #ffffff;
+        }
+
+        .site-header,
+        .form-panel,
+        .preview-toolbar,
+        .disclaimer {
+          display: none;
+        }
+
+        .app,
+        .preview-panel,
+        .document-wrap,
+        .document {
+          display: block;
+          width: 100%;
+          margin: 0;
+          padding: 0;
+          border: 0;
+          box-shadow: none;
+          background: #ffffff;
+        }
+
+        .document {
+          min-height: auto;
+          font-size: 12pt;
+        }
       }
     </style>
   </head>
   <body>
-    <main>
-      <div class="status">Сайт работает</div>
-      <h1>Александр<br />Бондаренко</h1>
-      <p>
-        Это первая версия моего сайта. Скоро здесь появится больше информации.
+    <header class="site-header">
+      <p class="eyebrow">Простой онлайн-конструктор</p>
+      <h1>Доверенность без лишних сложностей</h1>
+      <p class="intro">
+        Заполните данные, проверьте готовый текст и сохраните документ в PDF
+        через меню печати браузера.
       </p>
-      <a href="https://github.com/bondarenkoalexandr15-png">Мой GitHub</a>
+      <div class="privacy-note">Данные не отправляются на сервер</div>
+    </header>
+
+    <main class="app">
+      <form class="panel form-panel" id="document-form">
+        <fieldset class="section">
+          <legend>1. Место и дата</legend>
+          <div class="fields">
+            <div class="field">
+              <label for="city">Город</label>
+              <input
+                id="city"
+                name="city"
+                placeholder="Москва"
+                autocomplete="address-level2"
+                required
+              />
+            </div>
+            <div class="field">
+              <label for="issue-date">Дата выдачи</label>
+              <input id="issue-date" name="issueDate" type="date" required />
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="section">
+          <legend>2. Доверитель</legend>
+          <div class="fields">
+            <div class="field field-wide">
+              <label for="principal-name">ФИО полностью</label>
+              <input
+                id="principal-name"
+                name="principalName"
+                placeholder="Иванов Иван Иванович"
+                autocomplete="name"
+                required
+              />
+            </div>
+            <div class="field">
+              <label for="principal-birth-date">Дата рождения</label>
+              <input
+                id="principal-birth-date"
+                name="principalBirthDate"
+                type="date"
+                required
+              />
+            </div>
+            <div class="field">
+              <label for="principal-passport">Серия и номер паспорта</label>
+              <input
+                id="principal-passport"
+                name="principalPassport"
+                placeholder="00 00 000000"
+                inputmode="numeric"
+                required
+              />
+            </div>
+            <div class="field field-wide">
+              <label for="principal-issued-by">Кем и когда выдан паспорт</label>
+              <input
+                id="principal-issued-by"
+                name="principalIssuedBy"
+                placeholder="ГУ МВД России по г. Москве, 01.01.2020"
+                required
+              />
+            </div>
+            <div class="field field-wide">
+              <label for="principal-address">Адрес регистрации</label>
+              <input
+                id="principal-address"
+                name="principalAddress"
+                placeholder="г. Москва, ул. Примерная, д. 1, кв. 1"
+                autocomplete="street-address"
+                required
+              />
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="section">
+          <legend>3. Представитель</legend>
+          <div class="fields">
+            <div class="field field-wide">
+              <label for="representative-name">ФИО полностью</label>
+              <input
+                id="representative-name"
+                name="representativeName"
+                placeholder="Петров Пётр Петрович"
+                required
+              />
+            </div>
+            <div class="field">
+              <label for="representative-birth-date">Дата рождения</label>
+              <input
+                id="representative-birth-date"
+                name="representativeBirthDate"
+                type="date"
+                required
+              />
+            </div>
+            <div class="field">
+              <label for="representative-passport">Серия и номер паспорта</label>
+              <input
+                id="representative-passport"
+                name="representativePassport"
+                placeholder="00 00 000000"
+                inputmode="numeric"
+                required
+              />
+            </div>
+            <div class="field field-wide">
+              <label for="representative-issued-by"
+                >Кем и когда выдан паспорт</label
+              >
+              <input
+                id="representative-issued-by"
+                name="representativeIssuedBy"
+                placeholder="ГУ МВД России по г. Москве, 01.01.2020"
+                required
+              />
+            </div>
+            <div class="field field-wide">
+              <label for="representative-address">Адрес регистрации</label>
+              <input
+                id="representative-address"
+                name="representativeAddress"
+                placeholder="г. Москва, ул. Примерная, д. 2, кв. 2"
+                required
+              />
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="section">
+          <legend>4. Полномочия и срок</legend>
+          <div class="fields">
+            <div class="field field-wide">
+              <label for="authority-template">Готовый вариант</label>
+              <select id="authority-template">
+                <option value="documents">Получение и подача документов</option>
+                <option value="government">Представительство в госорганах</option>
+                <option value="property">Управление имуществом</option>
+                <option value="custom">Свой текст</option>
+              </select>
+            </div>
+            <div class="field field-wide">
+              <label for="authorities">Что представитель вправе делать</label>
+              <textarea id="authorities" name="authorities" required></textarea>
+            </div>
+            <div class="field field-wide">
+              <label for="valid-until">Доверенность действует по</label>
+              <input
+                id="valid-until"
+                name="validUntil"
+                type="date"
+                required
+              />
+            </div>
+            <label class="checkbox field-wide">
+              <input id="substitution" name="substitution" type="checkbox" />
+              Разрешить передоверие полномочий другому лицу
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="actions">
+          <button class="button button-primary" type="submit">
+            Сформировать доверенность
+          </button>
+          <button class="button button-secondary" id="reset-button" type="reset">
+            Очистить
+          </button>
+        </div>
+      </form>
+
+      <section class="panel preview-panel" aria-labelledby="preview-heading">
+        <div class="preview-toolbar">
+          <span class="preview-label" id="preview-heading">Предпросмотр</span>
+          <button class="print-button" id="print-button" type="button">
+            Печать / PDF
+          </button>
+        </div>
+        <div class="document-wrap">
+          <article class="document" id="document">
+            <h2>ДОВЕРЕННОСТЬ</h2>
+            <div class="document-meta">
+              <span id="document-city" class="placeholder">г. __________</span>
+              <span id="document-date" class="placeholder"
+                >«___» __________ 20___ г.</span
+              >
+            </div>
+            <p>
+              Я, <strong id="document-principal-name">________________</strong>,
+              дата рождения
+              <span id="document-principal-birth-date">__________</span>,
+              паспорт
+              <span id="document-principal-passport">__________</span>, выдан
+              <span id="document-principal-issued-by">________________</span>,
+              зарегистрированный(ая) по адресу:
+              <span id="document-principal-address">________________</span>,
+              настоящей доверенностью уполномочиваю
+              <strong id="document-representative-name"
+                >________________</strong
+              >, дата рождения
+              <span id="document-representative-birth-date">__________</span>,
+              паспорт
+              <span id="document-representative-passport">__________</span>,
+              выдан
+              <span id="document-representative-issued-by"
+                >________________</span
+              >, зарегистрированного(ую) по адресу:
+              <span id="document-representative-address">________________</span>.
+            </p>
+            <p id="document-authorities">
+              Представлять мои интересы и совершать следующие действия:
+              ________________________________.
+            </p>
+            <p>
+              Доверенность выдана сроком по
+              <span id="document-valid-until">__________</span> включительно,
+              <span id="document-substitution">без права передоверия</span>.
+            </p>
+            <p class="signature">
+              Подпись доверителя: __________________ /
+              <span id="document-signature-name">________________</span> /
+            </p>
+          </article>
+          <p class="disclaimer">
+            Это общий информационный шаблон, а не юридическая консультация.
+            Для сделок, требующих нотариальной формы, и нестандартных полномочий
+            обратитесь к нотариусу или юристу.
+          </p>
+        </div>
+      </section>
     </main>
+
+    <script>
+      const form = document.querySelector("#document-form");
+      const template = document.querySelector("#authority-template");
+      const authorities = document.querySelector("#authorities");
+      const issueDate = document.querySelector("#issue-date");
+      const validUntil = document.querySelector("#valid-until");
+      const birthDateInputs = document.querySelectorAll(
+        '[name="principalBirthDate"], [name="representativeBirthDate"]',
+      );
+
+      const authorityTemplates = {
+        documents:
+          "подавать от моего имени заявления и иные документы, получать справки, выписки, копии и оригиналы документов, расписываться за меня и совершать иные действия, необходимые для выполнения данного поручения",
+        government:
+          "представлять мои интересы в государственных органах, органах местного самоуправления и иных организациях, подавать и получать документы, заявления, справки и решения, давать пояснения и расписываться за меня",
+        property:
+          "представлять мои интересы по вопросам управления принадлежащим мне имуществом, подавать и получать необходимые документы, оплачивать обязательные платежи и расписываться за меня",
+        custom: "",
+      };
+
+      function toInputDate(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+      }
+
+      function formatDate(value) {
+        if (!value) {
+          return "__________";
+        }
+
+        return new Intl.DateTimeFormat("ru-RU", {
+          day: "2-digit",
+          month: "long",
+          year: "numeric",
+        }).format(new Date(`${value}T00:00:00`));
+      }
+
+      function setText(id, value) {
+        document.querySelector(`#${id}`).textContent = value.trim();
+      }
+
+      function fillDefaultDates() {
+        const today = new Date();
+        const nextYear = new Date(today);
+        nextYear.setFullYear(nextYear.getFullYear() + 1);
+        issueDate.value = toInputDate(today);
+        validUntil.value = toInputDate(nextYear);
+        validUntil.min = issueDate.value;
+        birthDateInputs.forEach((input) => {
+          input.max = issueDate.value;
+        });
+      }
+
+      function fillAuthorities() {
+        authorities.value = authorityTemplates[template.value];
+        authorities.focus();
+      }
+
+      function resetDocument() {
+        const emptyValues = {
+          "document-city": "г. __________",
+          "document-date": "«___» __________ 20___ г.",
+          "document-principal-name": "________________",
+          "document-principal-birth-date": "__________",
+          "document-principal-passport": "__________",
+          "document-principal-issued-by": "________________",
+          "document-principal-address": "________________",
+          "document-representative-name": "________________",
+          "document-representative-birth-date": "__________",
+          "document-representative-passport": "__________",
+          "document-representative-issued-by": "________________",
+          "document-representative-address": "________________",
+          "document-authorities":
+            "Представлять мои интересы и совершать следующие действия: ________________________________.",
+          "document-valid-until": "__________",
+          "document-substitution": "без права передоверия",
+          "document-signature-name": "________________",
+        };
+
+        Object.entries(emptyValues).forEach(([id, value]) => {
+          setText(id, value);
+        });
+      }
+
+      function renderDocument() {
+        const data = new FormData(form);
+
+        setText("document-city", `г. ${data.get("city")}`);
+        setText("document-date", formatDate(data.get("issueDate")));
+        setText("document-principal-name", data.get("principalName"));
+        setText(
+          "document-principal-birth-date",
+          formatDate(data.get("principalBirthDate")),
+        );
+        setText("document-principal-passport", data.get("principalPassport"));
+        setText("document-principal-issued-by", data.get("principalIssuedBy"));
+        setText("document-principal-address", data.get("principalAddress"));
+        setText(
+          "document-representative-name",
+          data.get("representativeName"),
+        );
+        setText(
+          "document-representative-birth-date",
+          formatDate(data.get("representativeBirthDate")),
+        );
+        setText(
+          "document-representative-passport",
+          data.get("representativePassport"),
+        );
+        setText(
+          "document-representative-issued-by",
+          data.get("representativeIssuedBy"),
+        );
+        setText(
+          "document-representative-address",
+          data.get("representativeAddress"),
+        );
+        setText(
+          "document-authorities",
+          `Представлять мои интересы и ${data.get("authorities")}.`,
+        );
+        setText("document-valid-until", formatDate(data.get("validUntil")));
+        setText(
+          "document-substitution",
+          data.get("substitution")
+            ? "с правом передоверия"
+            : "без права передоверия",
+        );
+        setText("document-signature-name", data.get("principalName"));
+      }
+
+      template.addEventListener("change", fillAuthorities);
+      issueDate.addEventListener("change", () => {
+        validUntil.min = issueDate.value;
+        birthDateInputs.forEach((input) => {
+          input.max = issueDate.value;
+        });
+      });
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        renderDocument();
+        document.querySelector("#document").scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      });
+
+      form.addEventListener("reset", () => {
+        window.setTimeout(() => {
+          fillDefaultDates();
+          template.value = "documents";
+          authorities.value = authorityTemplates.documents;
+          resetDocument();
+        });
+      });
+
+      document.querySelector("#print-button").addEventListener("click", () => {
+        if (form.reportValidity()) {
+          renderDocument();
+          window.print();
+        }
+      });
+
+      fillDefaultDates();
+      authorities.value = authorityTemplates.documents;
+    </script>
   </body>
 </html>
