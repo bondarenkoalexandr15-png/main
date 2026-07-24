@@ -30,8 +30,26 @@ providers/  →  analytics  →  recommendations  →  report
 - `report.py` — отчёт в markdown или тексте.
 - `config.py` — целевая аллокация и риск-лимиты (настраиваются).
 
-Клиент использует **только методы чтения** (GetAccounts, GetPortfolio,
-GetInstrumentBy). Торговые методы не вызываются.
+Клиент-советник (`providers/`) использует **только методы чтения** (GetAccounts,
+GetPortfolio, GetInstrumentBy) — торговые методы не вызываются.
+
+## Тренажёр торговли в песочнице (обучение)
+
+Отдельный учебный модуль `advisor/trainer.py` — тренировка торговли в
+**песочнице (Sandbox)**: сделки по реальным ценам, но на виртуальные деньги.
+Пошаговый гайд для новичка — в [GUIDE.md](GUIDE.md).
+
+```bash
+python -m advisor.trainer reset          # чистый виртуальный счёт
+python -m advisor.trainer fund 1000000   # пополнить на 1 000 000 ₽ (виртуальных)
+python -m advisor.trainer quote SBER     # цена и размер лота
+python -m advisor.trainer buy SBER 10    # купить по рынку
+python -m advisor.trainer portfolio      # портфель
+python -m advisor.trainer analyze        # анализ портфеля советником
+```
+
+Торговые методы (`PostSandboxOrder` и т.п.) вызываются **только** в контуре
+песочницы `SandboxService` — реальные деньги там недоступны.
 
 ## Установка
 
