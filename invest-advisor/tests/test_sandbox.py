@@ -31,6 +31,7 @@ class _FakeSession:
         self._responses = responses
         self._status = status
         self.calls: list[tuple[str, dict]] = []
+        self.proxies: dict[str, str] = {}
 
     def post(self, url, json=None, headers=None, timeout=None):  # noqa: A002
         method = url.rsplit("/", 1)[-1]
@@ -133,3 +134,9 @@ def test_http_error_raises():
 def test_missing_token_raises():
     with pytest.raises(SandboxError):
         SandboxClient("")
+
+
+def test_proxy_is_applied_to_session():
+    session = _FakeSession({})
+    SandboxClient("t.fake", proxy="socks5://user:pass@ru-host:1080", session=session)
+    assert session.proxies["https"] == "socks5://user:pass@ru-host:1080"

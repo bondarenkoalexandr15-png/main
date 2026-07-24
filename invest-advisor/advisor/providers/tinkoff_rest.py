@@ -45,6 +45,7 @@ class TinkoffRestProvider:
         use_sandbox: bool = False,
         base_currency: str = "RUB",
         timeout: float = 30.0,
+        proxy: str | None = None,
         session: requests.Session | None = None,
     ) -> None:
         if not token:
@@ -55,6 +56,8 @@ class TinkoffRestProvider:
         self._base_currency = base_currency.upper()
         self._timeout = timeout
         self._session = session or requests.Session()
+        if proxy:
+            self._session.proxies.update({"http": proxy, "https": proxy})
         self._instrument_cache: dict[str, dict[str, Any]] = {}
 
     # --- низкоуровневый вызов --------------------------------------------

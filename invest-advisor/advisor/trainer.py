@@ -46,7 +46,9 @@ def _make_client(settings: Settings) -> SandboxClient:
             "Не задан TINVEST_TOKEN. Задайте read-only токен T-Invest "
             "(в песочнице его достаточно для тренировочной торговли)."
         )
-    return SandboxClient(settings.token, base_url=settings.base_url)
+    return SandboxClient(
+        settings.token, base_url=settings.base_url, proxy=settings.proxy
+    )
 
 
 # --- команды --------------------------------------------------------------
@@ -160,6 +162,7 @@ def cmd_analyze(client: SandboxClient, args: argparse.Namespace) -> str:
         base_url=settings.base_url,
         use_sandbox=True,
         base_currency=settings.base_currency,
+        proxy=settings.proxy,
     )
     portfolio = provider.get_portfolio(account_id)
     analytics = analyze(portfolio)

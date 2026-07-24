@@ -65,6 +65,7 @@ class SandboxClient:
         base_url: str = PROD_BASE_URL,
         *,
         timeout: float = 30.0,
+        proxy: str | None = None,
         session: requests.Session | None = None,
     ) -> None:
         if not token:
@@ -73,6 +74,8 @@ class SandboxClient:
         self._base_url = base_url.rstrip("/")
         self._timeout = timeout
         self._session = session or requests.Session()
+        if proxy:
+            self._session.proxies.update({"http": proxy, "https": proxy})
 
     def _call(self, service: str, method: str, payload: dict[str, Any]) -> dict[str, Any]:
         url = f"{self._base_url}/{_CONTRACT}.{service}/{method}"

@@ -35,6 +35,7 @@ def _build_provider(settings: Settings, use_mock: bool) -> PortfolioProvider:
         base_url=settings.base_url,
         use_sandbox=settings.use_sandbox,
         base_currency=settings.base_currency,
+        proxy=settings.proxy,
     )
 
 

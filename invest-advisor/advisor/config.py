@@ -58,6 +58,7 @@ class Settings:
     account_id: str | None = None
     use_sandbox: bool = False
     base_currency: str = "RUB"
+    proxy: str | None = None
     target: TargetAllocation = field(default_factory=TargetAllocation)
     limits: RiskLimits = field(default_factory=RiskLimits)
 
@@ -69,7 +70,10 @@ class Settings:
           TINVEST_TOKEN         — токен доступа (лучше read-only);
           TINVEST_ACCOUNT_ID    — id счёта (если не задан, берётся первый);
           TINVEST_USE_SANDBOX   — "1"/"true" для песочницы;
-          TINVEST_BASE_CURRENCY — базовая валюта отчёта (по умолчанию RUB).
+          TINVEST_BASE_CURRENCY — базовая валюта отчёта (по умолчанию RUB);
+          TINVEST_PROXY         — прокси для доступа к API
+                                  (http://.. / https://.. / socks5://..),
+                                  напр. для обхода гео-блокировки по IP.
         """
         use_sandbox = os.getenv("TINVEST_USE_SANDBOX", "").strip().lower() in {
             "1",
@@ -81,6 +85,7 @@ class Settings:
             account_id=os.getenv("TINVEST_ACCOUNT_ID") or None,
             use_sandbox=use_sandbox,
             base_currency=os.getenv("TINVEST_BASE_CURRENCY", "RUB").upper(),
+            proxy=os.getenv("TINVEST_PROXY") or None,
         )
 
     @property

@@ -1,1 +1,2 @@
 requests>=2.31,<3
+PySocks>=1.7,<2  # поддержка socks5:// прокси в TINVEST_PROXY
