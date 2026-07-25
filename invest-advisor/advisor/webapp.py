@@ -148,7 +148,7 @@ async function refresh(){
 async function fund(){ try{ const a=document.getElementById('fundAmt').value;
   const d=await api('/api/fund',{amount:Number(a)}); msg('Счёт пополнен. Свободно: '+fmt(d.cash)+' ₽'); refresh(); setTimeout(refresh,1500); }catch(e){ msg(e.message,true);} }
 async function resetAcc(){ if(!confirm('Сбросить счёт? Все виртуальные позиции удалятся.'))return;
-  try{ await api('/api/reset'); msg('Счёт сброшен — открыт новый пустой.'); document.getElementById('analysisCard').style.display='none'; refresh(); }catch(e){ msg(e.message,true);} }
+  try{ await api('/api/reset'); msg('Счёт сброшен — открыт новый пустой.'); document.getElementById('analysisCard').style.display='none'; refresh(); setTimeout(refresh,1500); }catch(e){ msg(e.message,true);} }
 async function quote(){ const t=document.getElementById('ticker').value.trim();
   if(!t)return; try{ const d=await api('/api/quote',{ticker:t});
   document.getElementById('quote').innerHTML=`<b>${d.ticker}</b> (${d.name}) — цена <b>${fmt(d.price)} ${d.currency}</b>, лот ${d.lot} шт (1 лот ≈ ${fmt(d.lot_cost)} ${d.currency})`;
